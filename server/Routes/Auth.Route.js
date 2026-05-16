@@ -19,7 +19,7 @@ router.post("/register", registerUser);
 router.post("/login", loginUser);
 
 
-// Get Logged In User
+// Get Logged In User//
 router.get("/me", authMiddleware, getCurrentUser);
 
 
