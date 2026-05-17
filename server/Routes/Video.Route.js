@@ -8,6 +8,7 @@ import {
   deleteVideo,
   likeVideo,
   dislikeVideo,
+  bulkCreateVideos,
 } from "../Controllers/Video.Controller.js";
 
 import authMiddleware from "../Middleware/AuthMiddleware.js";
@@ -20,11 +21,13 @@ router.post("/", authMiddleware, createVideo);
 
 
 // Get All Videos
-router.get("/", getAllVideos);
+router.get("/all-videos", getAllVideos);
 
 
 // Get Single Video
-router.get("/:id", getSingleVideo);
+router.get("/get-video/:id", getSingleVideo);
+
+router.post("/bulk-create", bulkCreateVideos);
 
 
 // Update Video
