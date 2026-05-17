@@ -232,7 +232,7 @@ function VideoPlayer() {
       <div
         className={`
           pt-20 px-5 transition-all duration-300
-          ${sidebarOpen ? "ml-10" : "ml-20"}
+          ${sidebarOpen ? "ml-4" : "ml-20"}
         `}
       >
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
