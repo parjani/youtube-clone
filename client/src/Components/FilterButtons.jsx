@@ -1,19 +1,25 @@
-function FilterButtons({ selectedCategory, setSelectedCategory }) {
+function FilterButtons({
+  selectedCategory,
+  setSelectedCategory,
+  sidebarOpen,
+}) {
   const filters = [
-    "All",
-    "Music",
-    "Gaming",
-    "News",
-    "Sports",
-    "Movies",
-    "React",
-    "JavaScript",
-    "Live",
-    "Comedy",
-  ];
+  "All",
+  "Education",
+  "Programming",
+  "Database",
+  "Career",
+];
 
   return (
-    <div className="fixed top-16 left-0 right-0 z-30 bg-black border-b border-zinc-800">
+    <div
+      className={`
+        fixed top-16 right-0 z-30
+        bg-black border-b border-zinc-800
+        transition-all duration-300
+        ${sidebarOpen ? "left-60" : "left-20"}
+      `}
+    >
       <div className="flex gap-3 overflow-x-auto px-5 py-3 scrollbar-hide">
         {filters.map((filter, index) => (
           <button
@@ -23,7 +29,7 @@ function FilterButtons({ selectedCategory, setSelectedCategory }) {
               px-4 py-2 rounded-lg
               whitespace-nowrap
               text-sm font-medium
-              transition-all duration-200
+              transition-all duration-200 cursor-pointer
               ${
                 selectedCategory === filter
                   ? "bg-white text-black"
