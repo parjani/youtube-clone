@@ -52,7 +52,7 @@ function VideoCard({ video }) {
 
             <span>👎 {video.dislikes || 0}</span>
 
-            <span>💬 {video.comments?.length || 0}</span>
+            <span>💬 {video.commentsCount || 0}</span>
 
           </div>
 

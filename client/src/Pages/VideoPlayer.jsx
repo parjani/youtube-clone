@@ -111,6 +111,7 @@ function VideoPlayer() {
 
       setCommentText("");
       fetchComments();
+      fetchVideo()
     } catch (error) {
       console.log(error);
     }
@@ -123,11 +124,11 @@ function VideoPlayer() {
       await axios.put(
         `http://localhost:5000/api/videos/like/${id}`,
         {},
-        {
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
-        }
+        // {
+        //   headers: {
+        //     Authorization: `Bearer ${token}`,
+        //   },
+        // }
       );
 
       fetchVideo();
@@ -143,11 +144,11 @@ function VideoPlayer() {
       await axios.put(
         `http://localhost:5000/api/videos/dislike/${id}`,
         {},
-        {
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
-        }
+        // {
+        //   headers: {
+        //     Authorization: `Bearer ${token}`,
+        //   },
+        // }
       );
 
       fetchVideo();
@@ -198,6 +199,7 @@ function VideoPlayer() {
       setEditId(null);
       setEditText("");
       fetchComments();
+      fetchVideo()
     } catch (error) {
       console.log(error);
     }
@@ -215,6 +217,7 @@ function VideoPlayer() {
       );
 
       fetchComments();
+      fetchVideo()
     } catch (error) {
       console.log(error);
     }

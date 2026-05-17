@@ -82,17 +82,21 @@ function Home() {
 
   // ================= FILTER VIDEOS =================
 
-  const filteredVideos = videos.filter((video) => {
-    const matchesCategory =
-      selectedCategory === "All" ||
-      video.category?.toLowerCase() === selectedCategory.toLowerCase();
+const filteredVideos = videos.filter((video) => {
+  const matchesCategory =
+    selectedCategory === "All" ||
+    video.category?.toLowerCase() ===
+      selectedCategory.toLowerCase();
 
-    const matchesSearch =
-      video.title.toLowerCase().includes(query.toLowerCase()) ||
-      video.description?.toLowerCase().includes(query.toLowerCase());
+  const title = video.title || "";
+  const description = video.description || "";
 
-    return matchesCategory && matchesSearch;
-  });
+  const matchesSearch =
+    title.toLowerCase().includes(query.toLowerCase()) ||
+    description.toLowerCase().includes(query.toLowerCase());
+
+  return matchesCategory && matchesSearch;
+});
 
   useEffect(() => {
     console.log("VIDEOS:", videos.map(v => v.category));
@@ -131,7 +135,7 @@ function Home() {
 
 
       {/* MAIN CONTENT */}
-      <div className="pt-40 px-5 pl-10 md:pl-10">
+      <div className="pt-28 px-6 md:px-12">
         {loading ? (
           <div className="flex items-center justify-center h-[60vh]">
             <h1 className="text-white text-2xl">
