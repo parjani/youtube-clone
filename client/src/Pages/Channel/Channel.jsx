@@ -300,7 +300,7 @@ function ChannelPage() {
     <div className="min-h-screen bg-black text-white">
 
       {/* MAIN CONTENT */}
-      <div className="ml-20 pt-24 px-8">
+      <div className="ml-5 pt-24 px-8">
 
         {/* CHANNEL INFO */}
         <div className="flex flex-col md:flex-row gap-6">
@@ -412,57 +412,57 @@ function ChannelPage() {
             videos.map((video) => (
               <div className="bg-zinc-900 rounded-xl overflow-hidden border border-zinc-800">
 
-  {/* VIDEO AREA */}
-  {playingVideoId === video._id ? (
-    <iframe
-      className="w-full aspect-video"
-      src={`https://www.youtube.com/embed/${getYouTubeId(video.videoUrl)}`}
-      title="video"
-      frameBorder="0"
-      allowFullScreen
-    />
-  ) : (
-    <div
-      className="relative cursor-pointer"
-      onClick={() => setPlayingVideoId(video._id)}
-    >
-      <img
-        src={video.thumbnailUrl}
-        alt="thumbnail"
-        className="w-full aspect-video object-cover"
-      />
+                {/* VIDEO AREA */}
+                {playingVideoId === video._id ? (
+                  <iframe
+                    className="w-full aspect-video"
+                    src={`https://www.youtube.com/embed/${getYouTubeId(video.videoUrl)}`}
+                    title="video"
+                    frameBorder="0"
+                    allowFullScreen
+                  />
+                ) : (
+                  <div
+                    className="relative cursor-pointer"
+                    onClick={() => setPlayingVideoId(video._id)}
+                  >
+                    <img
+                      src={video.thumbnailUrl}
+                      alt="thumbnail"
+                      className="w-full aspect-video object-cover"
+                    />
 
-      {/* play button overlay */}
-    <div className="absolute inset-0 flex items-center justify-center bg-black/30 hover:bg-black/40 transition">
-  <Play className="w-12 h-12 text-white fill-white" />
-</div>
-    </div>
-  )}
+                    {/* play button overlay */}
+                    <div className="absolute inset-0 flex items-center justify-center bg-black/30 hover:bg-black/40 transition">
+                      <Play className="w-12 h-12 text-white fill-white" />
+                    </div>
+                  </div>
+                )}
 
-  {/* CONTENT */}
-  <div className="p-3">
-    <p className="text-xs text-zinc-400 truncate">
-      {video.videoUrl}
-    </p>
+                {/* CONTENT */}
+                <div className="p-3">
+                  <p className="text-xs text-zinc-400 truncate">
+                    {video.videoUrl}
+                  </p>
 
-    <div className="flex gap-2 mt-3">
+                  <div className="flex gap-2 mt-3">
 
-      <button
-        onClick={() => handleEditClick(video)}
-        className="w-full py-2 text-sm bg-blue-600 hover:bg-blue-700 rounded-lg"
-      >
-        Edit
-      </button>
+                    <button
+                      onClick={() => handleEditClick(video)}
+                      className="w-full py-2 text-sm bg-blue-600 hover:bg-blue-700 rounded-lg"
+                    >
+                      Edit
+                    </button>
 
-      <button
-        onClick={() => handleDelete(video._id)}
-        className="w-full py-2 text-sm bg-red-600 hover:bg-red-700 rounded-lg"
-      >
-        Delete
-      </button>
+                    <button
+                      onClick={() => handleDelete(video._id)}
+                      className="w-full py-2 text-sm bg-red-600 hover:bg-red-700 rounded-lg"
+                    >
+                      Delete
+                    </button>
 
-    </div>
-  </div>
+                  </div>
+                </div>
 
               </div>
             ))
