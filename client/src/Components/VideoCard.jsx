@@ -15,12 +15,13 @@ function VideoCard({ video }) {
         />
 
         <span className="absolute bottom-2 right-2 bg-black/80 text-white text-xs px-2 py-1 rounded">
-          12:30
+          {video.views || 0} views
         </span>
       </div>
 
       {/* VIDEO INFO */}
       <div className="flex gap-3 mt-3">
+
         {/* CHANNEL IMAGE */}
         <div className="min-w-[40px]">
           <img
@@ -35,6 +36,7 @@ function VideoCard({ video }) {
 
         {/* TEXT */}
         <div className="flex flex-col">
+
           <h2 className="text-white font-semibold text-sm line-clamp-2">
             {video.title}
           </h2>
@@ -43,19 +45,27 @@ function VideoCard({ video }) {
             {video?.uploader?.username || "Unknown Channel"}
           </p>
 
-          <div className="flex items-center gap-2 text-zinc-400 text-xs mt-1">
-            <span>{video.views} views</span>
+          {/* STATS */}
+          <div className="flex items-center gap-3 text-zinc-400 text-xs mt-1">
 
-            <span>•</span>
+            <span>👍 {video.likes || 0}</span>
 
-            <span>
-              {new Date(video.createdAt).toDateString()}
-            </span>
+            <span>👎 {video.dislikes || 0}</span>
+
+            <span>💬 {video.comments?.length || 0}</span>
+
           </div>
+
+          <div className="text-zinc-500 text-xs mt-1">
+            {new Date(video.uploadDate).toDateString()}
+          </div>
+
         </div>
+        
       </div>
+      
     </Link>
   );
 }
 
-export default VideoCard;
+export default VideoCard
