@@ -1,5 +1,6 @@
 import Video from "../Models/Video.Model.js";
 import Channel from "../Models/Channel.Model.js";
+import Comment from "../Models/Comment.Model.js";
 
 
 // ================= CREATE VIDEO =================
@@ -69,6 +70,7 @@ export const createVideo = async (req, res) => {
 
 // ================= GET ALL VIDEOS =================
 
+
 export const getAllVideos = async (req, res) => {
   try {
     const { search, category } = req.query;
@@ -86,27 +88,32 @@ export const getAllVideos = async (req, res) => {
       filter.category = category;
     }
 
-    let query = Video.find(filter)
+    let videos = await Video.find(filter)
       .populate("uploader", "username avatar")
-      .sort({ createdAt: -1 })
-      .populate("comments"); // if you have comments model
+      .sort({ createdAt: -1 });
 
-    let videos = await query;
-
-    // 🔥 IF USER NOT LOGGED IN → LIMIT 5 VIDEOS
+    // IF USER NOT LOGGED IN → LIMIT 5 VIDEOS
     if (!req.user) {
       videos = videos.slice(0, 5);
     }
 
-    // 🔥 ENRICH DATA (likes, comments, etc.)
-    const enrichedVideos = videos.map((video) => ({
-      ...video._doc,
+    // ENRICH DATA
+    const enrichedVideos = await Promise.all(
+      videos.map(async (video) => {
+        const commentsCount = await Comment.countDocuments({
+          video: video._id,
+        });
 
-      likesCount: video.likes || 0,
-      dislikesCount: video.dislikes || 0,
+        return {
+          ...video._doc,
 
-      commentsCount: video.comments?.length || 0,
-    }));
+          likesCount: video.likes || 0,
+          dislikesCount: video.dislikes || 0,
+
+          commentsCount,
+        };
+      })
+    );
 
     return res.status(200).json({
       success: true,
@@ -125,13 +132,13 @@ export const getAllVideos = async (req, res) => {
 
 // ================= GET SINGLE VIDEO =================
 
+
 export const getSingleVideo = async (req, res) => {
   try {
     const { id } = req.params;
 
     const video = await Video.findById(id)
-  .populate("uploader", "username avatar")
-  .populate("comments.userId", "username avatar");
+      .populate("uploader", "username avatar");
 
     if (!video) {
       return res.status(404).json({
@@ -140,6 +147,11 @@ export const getSingleVideo = async (req, res) => {
       });
     }
 
+    // Get comments separately
+    const comments = await Comment.find({
+      video: id,
+    }).populate("user", "username avatar");
+
     // Increase views
     video.views += 1;
 
@@ -147,7 +159,16 @@ export const getSingleVideo = async (req, res) => {
 
     res.status(200).json({
       success: true,
-      video,
+
+      video: {
+        ...video._doc,
+
+        comments,
+        commentsCount: comments.length,
+
+        likesCount: video.likes || 0,
+        dislikesCount: video.dislikes || 0,
+      },
     });
   } catch (error) {
     res.status(500).json({

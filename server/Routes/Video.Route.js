@@ -39,11 +39,11 @@ router.delete("/:id", authMiddleware, deleteVideo);
 
 
 // Like Video
-router.put("/like/:id", authMiddleware, likeVideo);
+router.put("/like/:id",  likeVideo);
 
 
 // Dislike Video
-router.put("/dislike/:id", authMiddleware, dislikeVideo);
+router.put("/dislike/:id",  dislikeVideo);
 
 
 export default router;
