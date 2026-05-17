@@ -244,12 +244,18 @@ The application is fully responsive for:
 
 ## Screenshots
 
-Add screenshots of:
+### Home Page
+<img width="1902" height="862" alt="image" src="https://github.com/user-attachments/assets/7a1f443a-71fc-46c7-b185-601cab314eef" />
 
-Home Page
-Login/Register Page
-Video Player Page
-Channel Page
+### Login/Register Page
+<img width="1917" height="862" alt="image" src="https://github.com/user-attachments/assets/896cc526-7ea5-4c61-a2f3-c60159ab4b1c" />
+<img width="1917" height="857" alt="image" src="https://github.com/user-attachments/assets/fef70ab6-8ab8-4261-a0a4-20398b51529a" />
+
+### Video Player Page
+<img width="1911" height="867" alt="image" src="https://github.com/user-attachments/assets/5d513b43-9daf-49ae-bae8-ed7ffda87d69" />
+
+### Channel Page
+<img width="1917" height="861" alt="image" src="https://github.com/user-attachments/assets/019087d2-5809-45d9-b6e9-b4e17c262248" />
 
 
 ## Testing Checklist
@@ -262,3 +268,7 @@ Channel Page
 - Search Functionality
 - Category Filters
 - Responsive UI
+
+## GitHub Link
+https://github.com/parjani/youtube-clone
+
