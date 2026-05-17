@@ -25,6 +25,8 @@ function Home() {
   };
   const [searchParams] = useSearchParams();
   const query = searchParams.get("q") || "";
+    const [isMobile, setIsMobile] = useState(false);
+
   // ================= FETCH VIDEOS =================
 
   const fetchVideos = async () => {
@@ -96,6 +98,17 @@ function Home() {
     console.log("VIDEOS:", videos.map(v => v.category));
   }, [videos]);
 
+   useEffect(() => {
+  const checkScreen = () => {
+    setIsMobile(window.innerWidth < 768);
+  };
+
+  checkScreen();
+  window.addEventListener("resize", checkScreen);
+
+  return () => window.removeEventListener("resize", checkScreen);
+}, []);
+
   return (
     <div className="bg-black min-h-screen">
       {/* HEADER */}
@@ -111,6 +124,7 @@ function Home() {
             selectedCategory={selectedCategory}
             setSelectedCategory={setSelectedCategory}
             sidebarOpen={sidebarOpen}
+            isMobile={isMobile}
           />
         </div>
       </div>
@@ -147,7 +161,7 @@ function Home() {
           </div>
         ) : (
           <>
-            <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 xl:grid-cols-4 gap-6">
+            <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-2 xl:grid-cols-4 gap-6">
               {filteredVideos.map((video) => (
                 <VideoCard
                   key={video._id}
