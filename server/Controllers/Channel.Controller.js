@@ -264,7 +264,6 @@ export const updateMyChannelVideo = async (req, res) => {
     const { videoId } = req.params;
     const { thumbnailUrl, videoUrl } = req.body;
 
-    // ✅ FIXED LINE
     const video = await ChannelVideo.findById(videoId);
 
     if (!video) {
