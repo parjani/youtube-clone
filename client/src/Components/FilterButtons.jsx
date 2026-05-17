@@ -2,6 +2,7 @@ function FilterButtons({
   selectedCategory,
   setSelectedCategory,
   sidebarOpen,
+  isMobile,
 }) {
   const filters = [
   "All",
@@ -13,13 +14,19 @@ function FilterButtons({
 
   return (
     <div
-      className={`
-        fixed top-16 right-0 z-30
-        bg-black border-b border-zinc-800
-        transition-all duration-300
-        ${sidebarOpen ? "left-60" : "left-20"}
-      `}
-    >
+  className={`
+    fixed top-16 right-0 z-30
+    bg-black border-b border-zinc-800
+    transition-all duration-300
+  `}
+  style={{
+    left: isMobile
+      ? "20px"
+      : sidebarOpen
+        ? "240px"
+        : "80px",
+  }}
+>
       <div className="flex gap-3 overflow-x-auto px-5 py-3 scrollbar-hide">
         {filters.map((filter, index) => (
           <button
