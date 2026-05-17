@@ -2,7 +2,6 @@ import Video from "../Models/Video.Model.js";
 import Channel from "../Models/Channel.Model.js";
 
 
-
 // ================= CREATE VIDEO =================
 
 export const createVideo = async (req, res) => {
@@ -76,7 +75,6 @@ export const getAllVideos = async (req, res) => {
 
     let filter = {};
 
-    // Search by title
     if (search) {
       filter.title = {
         $regex: search,
@@ -84,22 +82,39 @@ export const getAllVideos = async (req, res) => {
       };
     }
 
-    // Filter by category
     if (category) {
       filter.category = category;
     }
 
-    const videos = await Video.find(filter)
+    let query = Video.find(filter)
       .populate("uploader", "username avatar")
-      .sort({ createdAt: -1 });
+      .sort({ createdAt: -1 })
+      .populate("comments"); // if you have comments model
 
-    res.status(200).json({
+    let videos = await query;
+
+    // 🔥 IF USER NOT LOGGED IN → LIMIT 5 VIDEOS
+    if (!req.user) {
+      videos = videos.slice(0, 5);
+    }
+
+    // 🔥 ENRICH DATA (likes, comments, etc.)
+    const enrichedVideos = videos.map((video) => ({
+      ...video._doc,
+
+      likesCount: video.likes || 0,
+      dislikesCount: video.dislikes || 0,
+
+      commentsCount: video.comments?.length || 0,
+    }));
+
+    return res.status(200).json({
       success: true,
-      totalVideos: videos.length,
-      videos,
+      totalVideos: enrichedVideos.length,
+      videos: enrichedVideos,
     });
   } catch (error) {
-    res.status(500).json({
+    return res.status(500).json({
       success: false,
       message: error.message,
     });
@@ -114,10 +129,9 @@ export const getSingleVideo = async (req, res) => {
   try {
     const { id } = req.params;
 
-    const video = await Video.findById(id).populate(
-      "uploader",
-      "username avatar"
-    );
+    const video = await Video.findById(id)
+  .populate("uploader", "username avatar")
+  .populate("comments.userId", "username avatar");
 
     if (!video) {
       return res.status(404).json({
@@ -319,6 +333,79 @@ export const dislikeVideo = async (req, res) => {
     });
   } catch (error) {
     res.status(500).json({
+      success: false,
+      message: error.message,
+    });
+  }
+};
+
+
+export const bulkCreateVideos = async (req, res) => {
+  try {
+    const userId = req.user?.id;
+
+    const bulkVideos = [
+      {
+        title: "React JS Full Course for Beginners",
+        description: "Complete React tutorial from basics to advanced",
+        thumbnailUrl: "https://img.youtube.com/vi/Ke90Tje7VS0/hqdefault.jpg",
+        videoUrl: "https://www.youtube.com/watch?v=Ke90Tje7VS0",
+        category: "Education",
+        channel: "CodeWithTech",
+        channelId: "channel_101",
+        uploader: userId,
+      },
+      {
+        title: "Node.js Crash Course",
+        description: "Learn backend development with Node.js",
+        thumbnailUrl: "https://img.youtube.com/vi/fBNz5xF-Kx4/hqdefault.jpg",
+        videoUrl: "https://www.youtube.com/watch?v=fBNz5xF-Kx4",
+        category: "Programming",
+        channel: "Backend Master",
+        channelId: "channel_102",
+        uploader: userId,
+      },
+      {
+        title: "JavaScript Tips & Tricks",
+        description: "Improve your JS skills with pro tips",
+        thumbnailUrl: "https://img.youtube.com/vi/2qDywOS7VAc/hqdefault.jpg",
+        videoUrl: "https://www.youtube.com/watch?v=2qDywOS7VAc",
+        category: "Programming",
+        channel: "JS World",
+        channelId: "channel_103",
+        uploader: userId,
+      },
+      {
+        title: "MongoDB Explained in 10 Minutes",
+        description: "Quick MongoDB crash guide",
+        thumbnailUrl: "https://img.youtube.com/vi/pWbMrx5rVBE/hqdefault.jpg",
+        videoUrl: "https://www.youtube.com/watch?v=pWbMrx5rVBE",
+        category: "Database",
+        channel: "DB Simplified",
+        channelId: "channel_104",
+        uploader: userId,
+      },
+      {
+        title: "Frontend Developer Roadmap 2026",
+        description: "Complete roadmap to become frontend dev",
+        thumbnailUrl: "https://img.youtube.com/vi/1Rs2ND1ryYc/hqdefault.jpg",
+        videoUrl: "https://www.youtube.com/watch?v=1Rs2ND1ryYc",
+        category: "Career",
+        channel: "Tech Career Hub",
+        channelId: "channel_105",
+        uploader: userId,
+      },
+    ];
+
+    const createdVideos = await Video.insertMany(bulkVideos);
+
+    return res.status(201).json({
+      success: true,
+      message: "Bulk videos created successfully",
+      videos: createdVideos,
+    });
+  } catch (error) {
+    return res.status(500).json({
       success: false,
       message: error.message,
     });
