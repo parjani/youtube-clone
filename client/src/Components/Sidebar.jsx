@@ -11,7 +11,7 @@ import {
 
 import { Link, useLocation } from "react-router-dom";
 
-function Sidebar({ sidebarOpen }) {
+function Sidebar({ sidebarOpen, setSidebarOpen }) {
   const location = useLocation();
 
   const menuItems = [
@@ -54,13 +54,27 @@ function Sidebar({ sidebarOpen }) {
   ];
 
   return (
+  <>
+    {/* OVERLAY (mobile only) */}
+    {sidebarOpen && (
+      <div
+        className="fixed inset-0 bg-black/60 z-30 md:hidden"
+        onClick={() => setSidebarOpen(false)}
+      />
+    )}
+
+    {/* SIDEBAR */}
     <aside
       className={`
         fixed top-16 left-0 h-[calc(100vh-64px)]
         bg-black border-r border-zinc-800
         transition-all duration-300 z-40
         overflow-y-auto
-        ${sidebarOpen ? "w-60" : "w-20"}
+
+        ${sidebarOpen ? "translate-x-0" : "-translate-x-full md:translate-x-0"}
+
+        w-60 md:w-60
+        ${!sidebarOpen ? "md:w-20" : ""}
       `}
     >
       <div className="flex flex-col py-3 px-2 gap-1">
@@ -130,7 +144,7 @@ function Sidebar({ sidebarOpen }) {
           </h2>
 
           <div className="flex flex-col gap-2">
-            {[1, 2, 3].map((item) => (
+            {["Apna College", "code_baithak", "Internshala Training"].map((item) => (
               <div
                 key={item}
                 className="flex items-center gap-3 px-2 py-2 rounded-lg hover:bg-zinc-900 cursor-pointer transition"
@@ -140,7 +154,7 @@ function Sidebar({ sidebarOpen }) {
                 </div>
 
                 <span className="text-zinc-300 text-sm">
-                  Channel {item}
+                  {item}
                 </span>
               </div>
             ))}
@@ -148,6 +162,7 @@ function Sidebar({ sidebarOpen }) {
         </div>
       )}
     </aside>
+    </>
   );
 }
 
