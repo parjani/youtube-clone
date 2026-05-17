@@ -142,7 +142,7 @@ function Home() {
           <div className="flex flex-col items-center justify-center h-[60vh] gap-4">
 
             <h1 className="text-zinc-400 text-2xl">
-              No Videos Found
+              Click “Explore Videos” to discover more contents
             </h1>
 
             <button
