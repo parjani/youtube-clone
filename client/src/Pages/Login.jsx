@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
-
+import { ArrowLeft } from "lucide-react";
 import axios from "axios";
 
 import {
@@ -68,7 +68,20 @@ function Login() {
 
   return (
     <div className="min-h-screen bg-black flex items-center justify-center px-4">
-      <div className="w-full max-w-md bg-zinc-900 rounded-2xl p-8 border border-zinc-800 shadow-2xl">
+      <div className="w-full max-w-md bg-zinc-900 rounded-2xl p-8 border border-zinc-800 shadow-2xl relative">
+
+        <button
+  onClick={() => navigate("/")}
+  className="
+    absolute top-5 left-5
+    flex items-center gap-2
+    text-zinc-400 hover:text-white
+    transition text-sm
+  "
+>
+  <ArrowLeft className="w-4 h-4" />
+  Back
+</button>
         {/* LOGO */}
         <div className="flex justify-center mb-6">
           <img
@@ -160,6 +173,8 @@ function Login() {
         </form>
 
         {/* REGISTER LINK */}
+ 
+
         <p className="text-zinc-400 text-center mt-6">
           Don't have an account?{" "}
           <Link
