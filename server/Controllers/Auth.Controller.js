@@ -104,7 +104,7 @@ export const loginUser = async (req, res) => {
             {
                 id: user._id,
             },
-            process.env.JWT_SECRET,
+            "67CFGHK12",
             {
                 expiresIn: "7d",
             }
