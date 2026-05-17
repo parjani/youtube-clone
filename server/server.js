@@ -1,6 +1,5 @@
 import express from "express";
 import cors from "cors";
-import dotenv from "dotenv";
 
 import connectDB from "./Config/db.js";
 
@@ -9,7 +8,6 @@ import channelRoutes from "./Routes/Channel.Route.js";
 import commentRoutes from "./Routes/Comment.Route.js";
 import videoRoutes from "./Routes/Video.Route.js";
 
-dotenv.config();
 
 const app = express();
 
@@ -41,7 +39,7 @@ app.get("/", (req, res) => {
 
 
 // Server
-const PORT = process.env.PORT || 5000;
+const PORT =  5000;
 
 app.listen(PORT, () => {
   console.log(`Server running on port ${PORT}`);
